@@ -139,6 +139,15 @@ Q2
 a)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Standard
+Note: image patches look a lot like basis functions like the DCT ones used
+ in JPEG
+\end_layout
+
 \begin_layout Subsection*
 b)
 \end_layout
