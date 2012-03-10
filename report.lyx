@@ -79,12 +79,56 @@ Q1
 a)
 \end_layout
 
+\begin_layout Standard
+The likelihood of the training data under the learned model will only tell
+ you how well the model fits your training data; it is easy to construct
+ a model which will maximises this measure; k-Nearest Neighbours with a
+ k of 1 is just one example of such a model.
+\end_layout
+
+\begin_layout Standard
+A better way of comparing the classifiers would be to evaluate their performance
+ under cross-validation.
+\end_layout
+
 \begin_layout Subsection*
 b)
 \end_layout
 
+\begin_layout Standard
+When optimise the parameters of the rbf network, for example using the EM
+ algorithm, the positions of the rbf functions in our data space will be
+ moved towards regions where we have training data, and will be useless
+ for predicting in regions where we did not have training data.
+\end_layout
+
+\begin_layout Standard
+In general it will be difficult to predict anything sensible in regions
+ were we do not have training data, especially with a nonlinear model, since
+ the model could take on any values at all in those regions and still be
+ a good predictor of our training data.
+ A linear model might do better in this case, although it is hard to say
+ without any training data in those regions.
+ Another possible slight improvement would be using some kind of prior over
+ the model parameters.
+\end_layout
+
 \begin_layout Subsection*
 c)
+\end_layout
+
+\begin_layout Standard
+Since a 2-layer model can approximate any function at all, it wouldn't tell
+ us anything about regions outside our training instances, since it could
+ approximate any function at all that includes those training instances.
+ Another way to put this would be that this is a very complex model with
+ a lot of parameters and a lot of scope for overfitting the training data.
+ In addition, training this network will be very slow.
+\end_layout
+
+\begin_layout Standard
+Instead, it would be preferable to actually look at the data, and use the
+ simplest model that could possibly work.
 \end_layout
 
 \begin_layout Section*
@@ -153,10 +197,6 @@ c)
 
 \begin_layout Section*
 Q5
-\end_layout
-
-\begin_layout Standard
-
 \end_layout
 
 \end_body
