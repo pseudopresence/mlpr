@@ -15,7 +15,7 @@
 % imshow(imgPatch(125));
 % colormap('gray');
 % 
-%% Q1a
+%% Q2a
 % tic;
 % [Mu, E, Lambda, P] = getEigenvectors(Data.x);
 % toc;
@@ -35,7 +35,7 @@
 % imagesc(imgPatchD(E(:, 3)'));
 % axis('square');
 % 
-%% Q1b
+%% Q2b
 % 
 % tic;
 % ProjectedX = projectSequence(Mu, E, Data.x, 3);
@@ -47,15 +47,25 @@
 % [Dummy MaxI] = max(ErrorsX);
 % imshow(imgPatch(MaxI));
 % colormap('gray');
-%% Q1c
-
-H = hist(Data.y, 64);
-plot(H);
+%% Q2c
+% 
+% H = hist(Data.y, 64);
+% plot(H);
 % Bimodal with the second mode being pretty small; looks like underlying
 % unimodal with saturation at 63.
 
-%% Q1d
+%% Q2d
+% 
+% D = Data.y - Data.x(:, end);
+% [H2, X2] = hist(D, 64);
+% plot(X2, H2);
 
-D = Data.y - Data.x(:, end);
-[H2, X2] = hist(D, 64);
-plot(X2, H2);
+%% Q3a
+SubSetX = [Data.x(:, end), Data.x(:, end - 34), Data.x(:, end - 35)];
+% TODO
+% 64 * 64 * 3 entries in matrix, only 100000 instances -> small number of
+% instances for each parameter to be learned?
+
+%% Q3b
+
+
