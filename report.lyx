@@ -80,19 +80,24 @@ a)
 \end_layout
 
 \begin_layout Standard
+I understand the question as meaning: we have a dataset X, and two different
+ models M1 and M2.
+ We fit the parameters of each model based on the entire dataset X.
+ We then evaluate the likelihood of the data under each model, and select
+ the model with the highest.
+\end_layout
+
+\begin_layout Standard
 The likelihood of the training data under the learned model will only tell
  you how well the model fits your training data; it is easy to construct
- a model which will maximises this measure; k-Nearest Neighbours with a
- k of 1 is just one example of such a model.
+ a model which will maximises this measure, by simply predicting a distribution
+ which precisely matches the distribution in the trained data.
 \end_layout
 
 \begin_layout Standard
 A better way of comparing the classifiers would be to evaluate their performance
  under cross-validation.
-\end_layout
-
-\begin_layout Standard
-TODO ROC curves?
+ 
 \end_layout
 
 \begin_layout Subsection*

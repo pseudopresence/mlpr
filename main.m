@@ -13,6 +13,7 @@ Data = load('imdata.mat');
 Data.x = double(Data.x);
 Data.y = double(Data.y);
 Data.i = double(Data.i);
+[NInstances NFeatures] = size(Data.x);
 toc;
 
 %% Visualisation functions
@@ -73,9 +74,9 @@ close;
 
 %% Q2c
 
-H = hist(Data.y, 64);
+CountsY = hist(Data.y, 64);
 figure();
-plot(H);
+plot(CountsY);
 writeFigureEPS('Q2c-hist.eps');
 close;
 % Bimodal with the second mode being pretty small; looks like underlying
@@ -91,12 +92,34 @@ writeFigureEPS('Q2d-hist.eps');
 close;
 
 %% Q3a
+tic;
 SubSetX = [Data.x(:, end), Data.x(:, end - 34), Data.x(:, end - 35)];
 % TODO
 % 64 * 64 * 3 entries in matrix, only 100000 instances -> small number of
 % instances for each parameter to be learned?
+% Supervised learning problem: Predict y given x
+% treating y, x as discrete => classification problem
+% Using Naive bayes model
+% Modelling P(x|y)
+% Naive bayes assumption: P(x|y) = P(x1|y)P(x2|y)P(x3|y)
+% Represent P(x1|y) as a matrix
+% Maximum likelihood solution: P(x1|y) = CountX1Y(x1, y)/Count(y)
+% P(y) = Count(y)/N
+
+% Classification: argmax_y P(y|x) = argmax_y P(x|y)P(y)/P(x) = argmax_y P(x|y)P(y).
+% P(x1|y) = CountX1Y(x1, y)/CountY(y)
+% P(y) = CountY(y)/TotY
+% => argmax_y P(y|x) = argmax_y P(x|y)P(y) = argmax_y CountX1Y(x1, y)/TotY = argmax_y CountX1Y(x1, y)
+Results = crossValidation(Data.y, SubSetX, 4, @trainAndTestNB);
+Probs = reshape(cell2mat(Results), NInstances, 1);
+Perplexity = perplexity(Probs);
+% No idea if this is right.
+toc;
+
+
 
 %% Q3b
+DPrior = ones(64, 1);
 
 %% End
 fprintf('Done.\n');
