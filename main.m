@@ -112,9 +112,9 @@ SubSetX = [Data.x(:, end), Data.x(:, end - 34), Data.x(:, end - 35)];
 % Maximum likelihood solution:
 % P(x1|y) = CountX1Y(x1, y)/Count(y)
 % P(y) = CountY(y)/TotY
-Results = crossValidation(Data.y, SubSetX, 4, @trainAndTestNB);
-Probs = reshape(cell2mat(Results), NInstances, 1);
-Perplexity = perplexity(Probs);
+ResultsNB = crossValidation(Data.y, SubSetX, 4, @trainAndTestNB);
+LikelihoodsNB = reshape(cell2mat(ResultsNB), NInstances, 1);
+PerplexityNB = perplexity(LikelihoodsNB);
 % No idea if this is right.
 toc;
 
@@ -125,7 +125,7 @@ toc;
 % Probs = reshape(cell2mat(Results), NInstances, 1);
 % Perplexity = perplexity(Probs);
 % i)
-disp(Perplexity);
+disp(PerplexityNB);
 % ii)
 % Figures generated in trainAndTestNB.
 % iii)
@@ -134,7 +134,16 @@ disp(Perplexity);
 % No code
 
 %% Q4a
+ResultsRL3 = crossValidation(Data.y, SubSetX, 4, @trainAndTestLR);
+LikelihoodsRL3 = reshape(cell2mat(ResultsRL3), NInstances, 1);
+PerplexityRL3 = perplexity(LikelihoodsRL3);
+% this time it will be a pdf so how is the perplexity we get from this
+% comparable to the naive bayes results?
 %% Q4b
+ProjectedX = projectSequence(Mu, E, Data.x, 10);
+ResultsRL10 = crossValidation(Data.y, ProjectedX, 4, @trainAndTestLR);
+LikelihoodsRL10 = reshape(cell2mat(ResultsRL10), NInstances, 1);
+PerplexityRL10 = perplexity(LikelihoodsRL10);
 %% Q4c
 % No code
 %% End
