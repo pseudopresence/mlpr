@@ -1,6 +1,12 @@
-function [Likelihoods] = trainAndTestNB(TrainDataY, TrainDataX, TestDataY, TestDataX)
+function [Likelihoods] = trainAndTestNB(FoldIdx, TrainDataY, TrainDataX, TestDataY, TestDataX)
     [CountsY CountsX] = trainNB(TrainDataY, TrainDataX);
-    % TODO we are going to use these values to compute perplexity, 
-    % but this is p(y,x|M) when we want p(y|x,M).
     Likelihoods = probNB(CountsY, CountsX, TestDataY, TestDataX);
+    
+    Dists = distNB(CountsY, CountsX, TestDataX);
+    PlotIdx = 9465;
+    figure();
+    plot(Dists(PlotIdx, :));
+    line([TestDataY(PlotIdx) TestDataY(PlotIdx)], [0, max(Dists(PlotIdx, :))],'Color','r');
+    writeFigureEPS(['Q3bii-hist-' int2str(FoldIdx) '-' int2str(PlotIdx) '.eps' ]);
+    close;
 end

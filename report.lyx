@@ -145,6 +145,10 @@ Instead, it would be preferable to actually look at the data, and use the
 Q2
 \end_layout
 
+\begin_layout Standard
+TODO - code
+\end_layout
+
 \begin_layout Subsection*
 a)
 \end_layout
@@ -192,6 +196,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Q2a-mean.eps
 	width 100text%
@@ -238,6 +243,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Q2a-eig1.eps
 	width 100text%
@@ -285,9 +291,10 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Q2a-eig2.eps
 	width 100text%
@@ -334,6 +341,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Q2a-eig3.eps
 	width 100text%
@@ -362,6 +370,18 @@ Eigenvector 3
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results of PCA Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -371,20 +391,240 @@ Eigenvector 3
 b)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q2b-patch.eps
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Original Patch
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q2b-reconstructed.eps
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Reconstruction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Patch with worst reconstruction error
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 c)
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q2c-hist.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Histogram of Targets
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
 d)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q2d-hist.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Histogram of Differences
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Q3
 \end_layout
 
+\begin_layout Standard
+TODO - code
+\end_layout
+
 \begin_layout Subsection*
 a)
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Subsection*
@@ -395,36 +635,76 @@ b)
 i)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
 \begin_layout Subsubsection*
 ii)
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Subsubsection*
 iii)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
 \begin_layout Subsubsection*
 iv)
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Section*
 Q4
 \end_layout
 
+\begin_layout Standard
+TODO - code
+\end_layout
+
 \begin_layout Subsection*
 a)
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Subsection*
 b)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
 \begin_layout Subsection*
 c)
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
 \begin_layout Section*
 Q5
+\end_layout
+
+\begin_layout Standard
+TODO - code
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \end_body

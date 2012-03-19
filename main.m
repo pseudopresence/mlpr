@@ -13,6 +13,9 @@ Data = load('imdata.mat');
 Data.x = double(Data.x);
 Data.y = double(Data.y);
 Data.i = double(Data.i);
+% TestData = load('imtestdata.mat');
+% TestData.x = double(TestData.x);
+% TestData.i = double(TestData.i);
 [NInstances NFeatures] = size(Data.x);
 toc;
 
@@ -71,12 +74,15 @@ fprintf('[Q2b] Producing figures...\n');
 figurePatch(imgPatch(MaxI));
 writeFigureEPS('Q2b-patch.eps');
 close;
+figurePatch(imgPatchD(ReconstructedX(MaxI, :)));
+writeFigureEPS('Q2b-reconstructed.eps');
+close;
 
 %% Q2c
 
-CountsY = hist(Data.y, 64);
+CountsY = hist(Data.y, 0:63);
 figure();
-plot(CountsY);
+bar(CountsY, 'hist');
 writeFigureEPS('Q2c-hist.eps');
 close;
 % Bimodal with the second mode being pretty small; looks like underlying
@@ -85,9 +91,9 @@ close;
 %% Q2d
 % 
 D = Data.y - Data.x(:, end);
-[H2, X2] = hist(D, 64);
+[H2, X2] = hist(D, min(D):max(D));
 figure();
-plot(X2, H2);
+bar(X2, H2, 'hist');
 writeFigureEPS('Q2d-hist.eps');
 close;
 
@@ -103,13 +109,9 @@ SubSetX = [Data.x(:, end), Data.x(:, end - 34), Data.x(:, end - 35)];
 % Modelling P(x|y)
 % Naive bayes assumption: P(x|y) = P(x1|y)P(x2|y)P(x3|y)
 % Represent P(x1|y) as a matrix
-% Maximum likelihood solution: P(x1|y) = CountX1Y(x1, y)/Count(y)
-% P(y) = Count(y)/N
-
-% Classification: argmax_y P(y|x) = argmax_y P(x|y)P(y)/P(x) = argmax_y P(x|y)P(y).
-% P(x1|y) = CountX1Y(x1, y)/CountY(y)
+% Maximum likelihood solution:
+% P(x1|y) = CountX1Y(x1, y)/Count(y)
 % P(y) = CountY(y)/TotY
-% => argmax_y P(y|x) = argmax_y P(x|y)P(y) = argmax_y CountX1Y(x1, y)/TotY = argmax_y CountX1Y(x1, y)
 Results = crossValidation(Data.y, SubSetX, 4, @trainAndTestNB);
 Probs = reshape(cell2mat(Results), NInstances, 1);
 Perplexity = perplexity(Probs);
@@ -119,8 +121,22 @@ toc;
 
 
 %% Q3b
-DPrior = ones(64, 1);
+% Results = crossValidation(Data.y, SubSetX, 4, @trainAndTestDir);
+% Probs = reshape(cell2mat(Results), NInstances, 1);
+% Perplexity = perplexity(Probs);
+% i)
+disp(Perplexity);
+% ii)
+% Figures generated in trainAndTestNB.
+% iii)
+% No code
+% iv)
+% No code
 
+%% Q4a
+%% Q4b
+%% Q4c
+% No code
 %% End
 fprintf('Done.\n');
 end
