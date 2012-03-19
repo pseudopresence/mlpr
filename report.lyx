@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage[usenames,dvipsnames]{color}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -25,6 +28,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -84,14 +88,13 @@ I understand the question as meaning: we have a dataset X, and two different
  models M1 and M2.
  We fit the parameters of each model based on the entire dataset X.
  We then evaluate the likelihood of the data under each model, and select
- the model with the highest.
+ the model with the highest likelihood.
 \end_layout
 
 \begin_layout Standard
 The likelihood of the training data under the learned model will only tell
  you how well the model fits your training data; it is easy to construct
- a model which will maximises this measure, by simply predicting a distribution
- which precisely matches the distribution in the trained data.
+ a model which will maximise this measure, but not generalise well at all.
 \end_layout
 
 \begin_layout Standard
@@ -105,9 +108,9 @@ b)
 \end_layout
 
 \begin_layout Standard
-When optimise the parameters of the rbf network, for example using the EM
- algorithm, the positions of the rbf functions in our data space will be
- moved towards regions where we have training data, and will be useless
+When we optimise the parameters of the rbf network, for example using the
+ EM algorithm, the positions of the rbf functions in our data space will
+ be moved towards regions where we have training data, and will be useless
  for predicting in regions where we did not have training data.
 \end_layout
 
@@ -137,8 +140,7 @@ Since a 2-layer model can approximate any function at all, it wouldn't tell
 
 \begin_layout Standard
 Instead, it would be preferable to actually look at the data, and use the
- simplest model that could possibly work.
- TODO no free lunch?
+ simplest model that could possibly work with it.
 \end_layout
 
 \begin_layout Section*
@@ -146,7 +148,39 @@ Q2
 \end_layout
 
 \begin_layout Standard
-TODO - code
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q2.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q2.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "projectSequence.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={projectSequence.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -154,17 +188,43 @@ a)
 \end_layout
 
 \begin_layout Standard
-TODO
+We perform Principal Components Analysis on the data by computing the eigenvecto
+rs of the sample covariance matrix.
+ We sort them in descending order by eigenvalue.
 \end_layout
 
 \begin_layout Standard
-Note: image patches look a lot like basis functions like the DCT ones used
- in JPEG
+\begin_inset VSpace defskip
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Patches are shows in greyscale using imshow; eigenvectors are rescaled and
- use the 'jet' colourmap.
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "getEigenvectors.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={getEigenvectors.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We visualise the mean patch and the first three eigenvalues in Figure~
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:q2a"
+
+\end_inset
+
+.
+ Patches are shown in greyscale; eigenvectors are rescaled and use the 'jet'
+ colourmap, since they contain negative and positive components.
+ The mean is more or less a uniform dark patch, and the first 3 eigenvectors
+ resemble basis functions like those in the DCT transform used on patches
+ in the JPEG file format.
 \end_layout
 
 \begin_layout Standard
@@ -291,7 +351,7 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -380,6 +440,13 @@ Results of PCA Analysis
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:q2a"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -392,7 +459,37 @@ b)
 \end_layout
 
 \begin_layout Standard
-TODO
+We project all the patches onto the first 3 eigenvectors and then reconstruct
+ them.
+ We find the patch with the greatest reconstruction error.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q2b.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We visualise this patch and its reconstruction in Figure~
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:q2b"
+
+\end_inset
+
+.
+ The pattern of alternating stripes cannot be reproduced from the three
+ first eigenvectors we saw above.
 \end_layout
 
 \begin_layout Standard
@@ -510,9 +607,12 @@ Patch with worst reconstruction error
 \end_inset
 
 
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:q2b"
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
 
@@ -526,7 +626,9 @@ c)
 \end_layout
 
 \begin_layout Standard
-TODO
+We visualise the histogram of the target values.
+ It is bimodal with the second mode being very small.
+ It looks like underlying unimodal with saturation at 63.
 \end_layout
 
 \begin_layout Standard
@@ -573,7 +675,7 @@ d)
 \end_layout
 
 \begin_layout Standard
-TODO
+We visualise the 
 \end_layout
 
 \begin_layout Standard
@@ -616,7 +718,129 @@ Q3
 \end_layout
 
 \begin_layout Standard
-TODO - code
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q3.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q3.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "crossValidation.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={crossValidation.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "trainAndTestNB.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={trainAndTestNB.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "trainNB.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={trainNB.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "probNB.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={probNB.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "distNB.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={distNB.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "perplexity.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={perplexity.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -636,7 +860,18 @@ i)
 \end_layout
 
 \begin_layout Standard
-TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q3bi.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -668,7 +903,86 @@ Q4
 \end_layout
 
 \begin_layout Standard
+TODO I interpret this question as asking us to now treat the intput and
+ output as numerical rather than categorical data and perform linear regression
+ on that.
+ 
+\end_layout
+
+\begin_layout Standard
 TODO - code
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q4.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q4.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "trainAndTestLR.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={trainAndTestLR.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "trainLR.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={trainLR.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "probLR.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={probLR.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -676,7 +990,18 @@ a)
 \end_layout
 
 \begin_layout Standard
-TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q4a.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -684,7 +1009,18 @@ b)
 \end_layout
 
 \begin_layout Standard
-TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q4b.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -700,11 +1036,138 @@ Q5
 \end_layout
 
 \begin_layout Standard
-TODO - code
+The results of Q2d) suggest we could get a very good result by just predicting
+ y=x(end).
+ We find the standard deviation of the error to give us a narrow gaussian
+ around x(end) for a distribution p(y|x).
 \end_layout
 
 \begin_layout Standard
-TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q5.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q5.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q5.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The resulting perplexity is comparable to our predictors from Q4.
+\end_layout
+
+\begin_layout Section*
+Appendix A - Additional Code
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "main.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={main.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "figurePatch.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={figurePatch.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "figureEig.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={figureEig.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "makeLogFile.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={makeLogFile.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "writeFigureEPS.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={writeFigureEPS.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \end_body
