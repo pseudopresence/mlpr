@@ -165,24 +165,6 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q2.m},ca
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset VSpace defskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand lstinputlisting
-filename "projectSequence.m"
-lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={projectSequence.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection*
 a)
 \end_layout
@@ -469,6 +451,24 @@ We project all the patches onto the first 3 eigenvectors and then reconstruct
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "projectSequence.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={projectSequence.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "q2b.log"
@@ -627,7 +627,14 @@ c)
 
 \begin_layout Standard
 We visualise the histogram of the target values.
- It is bimodal with the second mode being very small.
+ This is shown in Figure~
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:q2c"
+
+\end_inset
+
+.It is bimodal with the second mode being very small.
  It looks like underlying unimodal with saturation at 63.
 \end_layout
 
@@ -659,6 +666,13 @@ Histogram of Targets
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:q2c"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -675,7 +689,19 @@ d)
 \end_layout
 
 \begin_layout Standard
-We visualise the 
+We visualise the histogram of differences between x(end) and y - between
+ the last data pixel and the target pixel.
+ Although the question specifies 64 bins for the histogram, I later opted
+ to use as many bins as we had unique values since I found the resulting
+ histogram clearer.
+ This is shown in Figure~
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:q2d"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -702,6 +728,13 @@ status open
 \begin_layout Plain Layout
 Histogram of Differences
 \end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:q2d"
 
 \end_inset
 
@@ -733,6 +766,25 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q3.m},ca
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection*
+a)
+\end_layout
+
+\begin_layout Standard
+The Maximum Likelihood solution to Naive Bayes with categorical features
+ and output simply counts instances of each value of y and of x|y in the
+ training set.
+ The main issue with this is that any value of y, or any value of x for
+ a certain y, that was not seen in the training set will be assigned a probabili
+ty of 0.
+ One solution to this is to use additive solution by adding a small increment
+ (for example, 1) to each count.
+\end_layout
+
+\begin_layout Standard
+Train the model and evaluate the model using 4-fold cross-validation.
 \end_layout
 
 \begin_layout Standard
@@ -844,19 +896,198 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={perplexi
 \end_layout
 
 \begin_layout Subsection*
-a)
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Subsection*
 b)
 \end_layout
 
 \begin_layout Subsubsection*
 i)
+\end_layout
+
+\begin_layout Standard
+In the Bayesian formulation of the categorical Naive Bayes model, we compute
+ P(Y|X) by modelling P(Y) and P(X|Y).
+ Using the Naive Bayes assumption that the components of X are independent
+ given the class Y, we further break this down into P(X1|Y), P(X3|Y), P(X3|Y).
+\end_layout
+
+\begin_layout Standard
+We place a conjugate prior over the parameters of our categorical distributions.
+ The parameters of P(Y) are simply a vector of probabilities for each value
+ of Y; and for each value of Y, the parameters of P(X1|Y) are simply a vector
+ of probabilities for each value of X1; similarly for X2 and X3.
+\end_layout
+
+\begin_layout Standard
+The conjugate prior for a multinomial distribution is the Dirichlet distribution
+, and the categorical distribution is a multinomial distribution in the
+ case of a single trial.
+ Let P(Y=y) = 
+\backslash
+theta_y be the parameters of P(Y).
+ Our prior over the parameters 
+\backslash
+theta is P(
+\backslash
+theta) = Dir(
+\backslash
+theta;
+\backslash
+alpha), where 
+\backslash
+alpha are the parameters of the Dirichlet distribution.
+ We use 
+\backslash
+alpha_k = 1 to give us a uniform prior over 
+\backslash
+theta.
+\end_layout
+
+\begin_layout Standard
+Since the Dirichlet distribution is a conjugate prior to our P(Y|
+\backslash
+theta), P(
+\backslash
+theta|D) = Dir(
+\backslash
+theta;
+\backslash
+alpha') for some 
+\backslash
+alpha'.
+ Looking this up on Wikipedia's page on Conjugate Priors we find that 
+\backslash
+alpha'_k = 
+\backslash
+alpha_k + 
+\backslash
+sum_i I(x^(i) = k); in other words, we add to each component of alpha the
+ counts of the corresponding value in the training data.
+\end_layout
+
+\begin_layout Standard
+We now have a distribution over the parameters of P(Y|
+\backslash
+theta), but we wish to find P(Y) so that we can calculate P(Y|X).
+ To to this we multiply P(Y|
+\backslash
+theta) by P(
+\backslash
+theta) and marginalise out 
+\backslash
+theta (marginalising out each of its components).
+\end_layout
+
+\begin_layout Standard
+P(Y=y) = 
+\backslash
+int{
+\backslash
+theta_i}_i P(Y=y|
+\backslash
+theta)P(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Standard
+= 
+\backslash
+int{
+\backslash
+theta_i}_i 
+\backslash
+theta_y Dir(
+\backslash
+theta;
+\backslash
+alpha)
+\end_layout
+
+\begin_layout Standard
+We split the integral between the one over 
+\backslash
+theta_y and the ones over the other components of 
+\backslash
+theta.
+\end_layout
+
+\begin_layout Standard
+= 
+\backslash
+int{
+\backslash
+theta_y}
+\backslash
+theta_y 
+\backslash
+int{
+\backslash
+theta_i
+\backslash
+neq{}y}_i Dir(
+\backslash
+theta;
+\backslash
+alpha)
+\end_layout
+
+\begin_layout Standard
+The marginalisation of a Dirichlet distribution is a Beta distribution.
+\end_layout
+
+\begin_layout Standard
+= 
+\backslash
+int{
+\backslash
+theta_y}
+\backslash
+theta_y Beta(
+\backslash
+theta;
+\backslash
+alpha_y, 
+\backslash
+alpha_0 - 
+\backslash
+alpha_y)
+\end_layout
+
+\begin_layout Standard
+Where 
+\backslash
+alpha_0 is 
+\backslash
+sum_i 
+\backslash
+alpha_i.
+ This expression is now equivalent to the mean or expectation of our Beta
+ distribution, which is:
+\end_layout
+
+\begin_layout Standard
+= 
+\backslash
+frac{
+\backslash
+alpha_y}{
+\backslash
+alpha_0}
+\end_layout
+
+\begin_layout Standard
+Similar calculations occur for the parameters of P(Xk|Y=y) for each value
+ of Y.
+ We now see that, with a uniform Dirichlet prior with 
+\backslash
+alpha_k = 1, the computations and results of the Bayesian formulation are
+ precisely the same as those of the Maximum Likelihood formulation with
+ +1 Additive Smoothing.
+\end_layout
+
+\begin_layout Standard
+We therefore use the results from the previous section giving us the following
+ perplexity value:
 \end_layout
 
 \begin_layout Standard
@@ -879,7 +1110,252 @@ ii)
 \end_layout
 
 \begin_layout Standard
-TODO
+We visualise P(y|x^(i)) and y^(i) for each fold for (arbitrarily) the 9465^th
+ patch in each fold.
+ This is shown in Figure~
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:q3bii"
+
+\end_inset
+
+.
+ The distributions have a sharp peak, and we see that we can get a mode
+ very close to the true value yet still assign a low probability to the
+ true value.
+ This is most visible in the example from fold 1.
+ The disadvantage of our model is that the target values are categorical,
+ but we know that the underlying reality of the data is a real value which
+ has been captured with noise and then quantised; if we see an output value
+ of 45 in the training data it ought to increase our estimated probability
+ of seeing a 44 or 46, for example.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q3bii-hist-1-9465.eps
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fold 1, Test Patch 9465
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q3bii-hist-2-9465.eps
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fold 2, Test Patch 9465
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q3bii-hist-3-9465.eps
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fold 3, Test Patch 9465
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Q3bii-hist-4-9465.eps
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fold 4, Test Patch 9465
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Distributions and actual values for selected test patches
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:q3bii"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -887,15 +1363,18 @@ iii)
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Subsubsection*
-iv)
+The strong assumption made by Naive Bayes is that the input features are
+ distributed independently given the output value.
+ This seems unlikely, especially since we could have picked any other pixel
+ in the patch as the target; and if the Naive Bayes assumption held for
+ one target then it seems like it should equally hold for another, since
+ there is little to distinguish them; but it would therefore have to hold
+ between any sets of pixels in the patch.
 \end_layout
 
 \begin_layout Standard
-TODO
+TODO From this I can derive that for each pixel, its conditional distribution
+ given any other pixel is the same, but I'm not sure where that leads me.
 \end_layout
 
 \begin_layout Section*
@@ -903,14 +1382,9 @@ Q4
 \end_layout
 
 \begin_layout Standard
-TODO I interpret this question as asking us to now treat the intput and
- output as numerical rather than categorical data and perform linear regression
+I interpret this question as asking us to now treat the intput and output
+ as numerical rather than categorical data and perform linear regression
  on that.
- 
-\end_layout
-
-\begin_layout Standard
-TODO - code
 \end_layout
 
 \begin_layout Standard
@@ -929,6 +1403,17 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q4.m},ca
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection*
+a)
+\end_layout
+
+\begin_layout Standard
+We use Netlab to perform linear regression, although this is more to save
+ time debugging than due to any particular difficulty of implementation.
+ We select only the final, 34th and 35th from final pixels in the patch
+ data for our input, as specified.
 \end_layout
 
 \begin_layout Standard
@@ -985,8 +1470,8 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={probLR.m
 
 \end_layout
 
-\begin_layout Subsection*
-a)
+\begin_layout Standard
+We measure the perplexity under cross-validation.
 \end_layout
 
 \begin_layout Standard
@@ -1009,6 +1494,11 @@ b)
 \end_layout
 
 \begin_layout Standard
+We project the data onto the first ten eigenvectors of our PCA model from
+ Q2, and use these as our features for linear regression.
+\end_layout
+
+\begin_layout Standard
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1023,12 +1513,22 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,comm
 
 \end_layout
 
+\begin_layout Standard
+TODO this value is obviously wrong.
+ Actually doing the classification and getting % correct would tell us whether
+ the problem is badly normalised probabilities or something else.
+\end_layout
+
 \begin_layout Subsection*
 c)
 \end_layout
 
 \begin_layout Standard
-TODO
+The perplexity score for the PCA method is notably worse.
+ Although the PCA construction gives us a good way of discarding data while
+ still reconstructing a reasonable approximation of the original patches
+ to human eyes, when it comes to predicting specifically the value of the
+ target pixel, using its neighbours 
 \end_layout
 
 \begin_layout Section*
