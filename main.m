@@ -4,6 +4,7 @@ close all;
 clear all;
 dbstop if error;
 dbstop if naninf;
+addpath('netlab/');
 
 %% Load data
 fprintf('Loading data...'); tic;

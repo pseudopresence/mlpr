@@ -1,8 +1,8 @@
 function [Likelihoods] = trainAndTestNB(FoldIdx, TrainDataY, TrainDataX, TestDataY, TestDataX)
-    [CountsY CountsX] = trainNB(TrainDataY, TrainDataX);
-    Likelihoods = probNB(CountsY, CountsX, TestDataY, TestDataX);
+    [AlphaY AlphaX] = trainNB(TrainDataY, TrainDataX);
+    Likelihoods = probNB(AlphaY, AlphaX, TestDataY, TestDataX);
     
-    Dists = distNB(CountsY, CountsX, TestDataX);
+    Dists = distNB(AlphaY, AlphaX, TestDataX);
     PlotIdx = 9465;
     figure();
     plot(Dists(PlotIdx, :));
