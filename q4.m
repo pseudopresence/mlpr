@@ -7,8 +7,6 @@ SubSetX = [Data.x(:, end), Data.x(:, end - 34), Data.x(:, end - 35)];
 ResultsRL3 = crossValidation(Data.y, SubSetX, 4, @trainAndTestLR);
 LikelihoodsRL3 = reshape(cell2mat(ResultsRL3), NInstances, 1);
 PerplexityRL3 = perplexity(LikelihoodsRL3);
-% this time it will be a pdf so how is the perplexity we get from this
-% comparable to the naive bayes results?
 fprintf('Done.\n'); toc;
 fprintf(Log, '[Q4a] Linear Regression Perplexity: %f.\n', PerplexityRL3);
 
