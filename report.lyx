@@ -147,24 +147,6 @@ Instead, it would be preferable to actually look at the data, and use the
 Q2
 \end_layout
 
-\begin_layout Standard
-\begin_inset VSpace defskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand lstinputlisting
-filename "q2.m"
-lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q2.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection*
 a)
 \end_layout
@@ -194,7 +176,7 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={getEigen
 \end_layout
 
 \begin_layout Standard
-We visualise the mean patch and the first three eigenvalues in Figure~
+We visualise the mean patch and the first three eigenvalues in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:q2a"
@@ -480,7 +462,7 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,comm
 \end_layout
 
 \begin_layout Standard
-We visualise this patch and its reconstruction in Figure~
+We visualise this patch and its reconstruction in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:q2b"
@@ -627,14 +609,15 @@ c)
 
 \begin_layout Standard
 We visualise the histogram of the target values.
- This is shown in Figure~
+ This is shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:q2c"
 
 \end_inset
 
-.It is bimodal with the second mode being very small.
+.
+ It is bimodal with the second mode being very small.
  It looks like underlying unimodal with saturation at 63.
 \end_layout
 
@@ -689,12 +672,12 @@ d)
 \end_layout
 
 \begin_layout Standard
-We visualise the histogram of differences between x(end) and y - between
+We visualise the histogram of differences between x(end) and y -- between
  the last data pixel and the target pixel.
  Although the question specifies 64 bins for the histogram, I later opted
  to use as many bins as we had unique values since I found the resulting
  histogram clearer.
- This is shown in Figure~
+ This is shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:q2d"
@@ -744,13 +727,6 @@ name "fig:q2d"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section*
-Q3
-\end_layout
-
-\begin_layout Standard
 \begin_inset VSpace defskip
 \end_inset
 
@@ -760,12 +736,16 @@ Q3
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
-filename "q3.m"
-lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q3.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+filename "q2.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q2.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section*
+Q3
 \end_layout
 
 \begin_layout Subsection*
@@ -774,17 +754,286 @@ a)
 
 \begin_layout Standard
 The Maximum Likelihood solution to Naive Bayes with categorical features
- and output simply counts instances of each value of y and of x|y in the
- training set.
- The main issue with this is that any value of y, or any value of x for
- a certain y, that was not seen in the training set will be assigned a probabili
-ty of 0.
+ and output simply counts instances of each value of 
+\begin_inset Formula $y$
+\end_inset
+
+ and of 
+\begin_inset Formula $x|y$
+\end_inset
+
+ in the training set.
+ The main issue with this is that any value of 
+\begin_inset Formula $y$
+\end_inset
+
+, or any value of 
+\begin_inset Formula $x$
+\end_inset
+
+ for a certain 
+\begin_inset Formula $y$
+\end_inset
+
+, that was not seen in the training set will be assigned a probability of
+ 
+\begin_inset Formula $0$
+\end_inset
+
+.
  One solution to this is to use additive solution by adding a small increment
- (for example, 1) to each count.
+ (for example, 
+\begin_inset Formula $1$
+\end_inset
+
+) to each count.
+\end_layout
+
+\begin_layout Subsection*
+b)
+\end_layout
+
+\begin_layout Subsubsection*
+i)
 \end_layout
 
 \begin_layout Standard
-Train the model and evaluate the model using 4-fold cross-validation.
+In the Bayesian formulation of the categorical Naive Bayes model, we compute
+ 
+\begin_inset Formula $P(Y|X)$
+\end_inset
+
+ by modelling 
+\begin_inset Formula $P(Y)$
+\end_inset
+
+ and 
+\begin_inset Formula $P(X|Y)$
+\end_inset
+
+.
+ Using the Naive Bayes assumption that the components of 
+\begin_inset Formula $X$
+\end_inset
+
+ are independent given the class 
+\begin_inset Formula $Y$
+\end_inset
+
+, we further break this down into 
+\begin_inset Formula $P(X1|Y)$
+\end_inset
+
+, 
+\begin_inset Formula $P(X3|Y)$
+\end_inset
+
+, 
+\begin_inset Formula $P(X3|Y)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We place a conjugate prior over the parameters of our categorical distributions.
+ The parameters of 
+\begin_inset Formula $P(Y)$
+\end_inset
+
+ are simply a vector of probabilities for each value of 
+\begin_inset Formula $Y$
+\end_inset
+
+; and for each value of 
+\begin_inset Formula $Y$
+\end_inset
+
+, the parameters of 
+\begin_inset Formula $P(X_{1}|Y)$
+\end_inset
+
+ are simply a vector of probabilities for each value of 
+\begin_inset Formula $X_{1}$
+\end_inset
+
+; similarly for 
+\begin_inset Formula $X_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $X_{3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The conjugate prior for a multinomial distribution is the Dirichlet distribution
+, and the categorical distribution is a multinomial distribution in the
+ case of a single trial.
+ Let 
+\begin_inset Formula $P(Y=y)=\theta_{y}$
+\end_inset
+
+ be the parameters of 
+\begin_inset Formula $P(Y)$
+\end_inset
+
+.
+ Our prior over the parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is 
+\begin_inset Formula $P(\theta)=Dir(\theta;\alpha)$
+\end_inset
+
+, where 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ are the parameters of the Dirichlet distribution.
+ We use 
+\begin_inset Formula $\alpha_{k}=1$
+\end_inset
+
+ to give us a uniform prior over 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Since the Dirichlet distribution is a conjugate prior to our 
+\begin_inset Formula $P(Y|\theta)$
+\end_inset
+
+, 
+\begin_inset Formula $P(\theta|D)=Dir(\theta;\alpha')$
+\end_inset
+
+ for some 
+\begin_inset Formula $\alpha'$
+\end_inset
+
+.
+ Looking this up on Wikipedia's page on Conjugate Priors we find that 
+\begin_inset Formula $\alpha'_{k}=\alpha_{k}+\sum_{i}I(x^{(i)}=k)$
+\end_inset
+
+; in other words, we add to each component of alpha the counts of the correspond
+ing value in the training data.
+\end_layout
+
+\begin_layout Standard
+We now have a distribution over the parameters of 
+\begin_inset Formula $P(Y|\theta)$
+\end_inset
+
+, but we wish to find 
+\begin_inset Formula $P(Y)$
+\end_inset
+
+ so that we can calculate 
+\begin_inset Formula $P(Y|X)$
+\end_inset
+
+.
+ To to this we multiply 
+\begin_inset Formula $P(Y|\theta)$
+\end_inset
+
+ by 
+\begin_inset Formula $P(\theta)$
+\end_inset
+
+ and marginalise out 
+\begin_inset Formula $\theta$
+\end_inset
+
+ (marginalising out each of its components).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $P(Y=y)=\int_{\{\theta_{i}\}}P(Y=y|\theta)P(\theta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\theta_{i}}\theta_{y}Dir(\theta;\alpha)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We split the integral between the one over 
+\backslash
+theta_y and the ones over the other components of 
+\backslash
+theta.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\theta_{y}}\theta_{y}\int_{\{\theta_{i}\neq y\}}Dir(\theta;\alpha)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The marginalisation of a Dirichlet distribution is a Beta distribution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\theta_{y}}\theta_{y}Beta(\theta;\alpha_{y},\alpha_{0}-\alpha_{y})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $\alpha_{0}$
+\end_inset
+
+ is 
+\begin_inset Formula $\sum_{i}\alpha_{i}$
+\end_inset
+
+.
+ This expression is now equivalent to the mean or expectation of our Beta
+ distribution, which is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\frac{\alpha_{y}}{\alpha_{0}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similar calculations occur for the parameters of 
+\begin_inset Formula $P(X_{k}|Y=y)$
+\end_inset
+
+ for each value of Y.
+ We now see that, with a uniform Dirichlet prior with 
+\begin_inset Formula $\alpha_{k}=1$
+\end_inset
+
+, the computations and results of the Bayesian formulation are precisely
+ the same as those of the Maximum Likelihood formulation with +1 Additive
+ Smoothing.
+\end_layout
+
+\begin_layout Standard
+We train and evaluate the model using 4-fold cross-validation.
 \end_layout
 
 \begin_layout Standard
@@ -895,199 +1144,8 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={perplexi
 
 \end_layout
 
-\begin_layout Subsection*
-b)
-\end_layout
-
-\begin_layout Subsubsection*
-i)
-\end_layout
-
 \begin_layout Standard
-In the Bayesian formulation of the categorical Naive Bayes model, we compute
- P(Y|X) by modelling P(Y) and P(X|Y).
- Using the Naive Bayes assumption that the components of X are independent
- given the class Y, we further break this down into P(X1|Y), P(X3|Y), P(X3|Y).
-\end_layout
-
-\begin_layout Standard
-We place a conjugate prior over the parameters of our categorical distributions.
- The parameters of P(Y) are simply a vector of probabilities for each value
- of Y; and for each value of Y, the parameters of P(X1|Y) are simply a vector
- of probabilities for each value of X1; similarly for X2 and X3.
-\end_layout
-
-\begin_layout Standard
-The conjugate prior for a multinomial distribution is the Dirichlet distribution
-, and the categorical distribution is a multinomial distribution in the
- case of a single trial.
- Let P(Y=y) = 
-\backslash
-theta_y be the parameters of P(Y).
- Our prior over the parameters 
-\backslash
-theta is P(
-\backslash
-theta) = Dir(
-\backslash
-theta;
-\backslash
-alpha), where 
-\backslash
-alpha are the parameters of the Dirichlet distribution.
- We use 
-\backslash
-alpha_k = 1 to give us a uniform prior over 
-\backslash
-theta.
-\end_layout
-
-\begin_layout Standard
-Since the Dirichlet distribution is a conjugate prior to our P(Y|
-\backslash
-theta), P(
-\backslash
-theta|D) = Dir(
-\backslash
-theta;
-\backslash
-alpha') for some 
-\backslash
-alpha'.
- Looking this up on Wikipedia's page on Conjugate Priors we find that 
-\backslash
-alpha'_k = 
-\backslash
-alpha_k + 
-\backslash
-sum_i I(x^(i) = k); in other words, we add to each component of alpha the
- counts of the corresponding value in the training data.
-\end_layout
-
-\begin_layout Standard
-We now have a distribution over the parameters of P(Y|
-\backslash
-theta), but we wish to find P(Y) so that we can calculate P(Y|X).
- To to this we multiply P(Y|
-\backslash
-theta) by P(
-\backslash
-theta) and marginalise out 
-\backslash
-theta (marginalising out each of its components).
-\end_layout
-
-\begin_layout Standard
-P(Y=y) = 
-\backslash
-int{
-\backslash
-theta_i}_i P(Y=y|
-\backslash
-theta)P(
-\backslash
-theta)
-\end_layout
-
-\begin_layout Standard
-= 
-\backslash
-int{
-\backslash
-theta_i}_i 
-\backslash
-theta_y Dir(
-\backslash
-theta;
-\backslash
-alpha)
-\end_layout
-
-\begin_layout Standard
-We split the integral between the one over 
-\backslash
-theta_y and the ones over the other components of 
-\backslash
-theta.
-\end_layout
-
-\begin_layout Standard
-= 
-\backslash
-int{
-\backslash
-theta_y}
-\backslash
-theta_y 
-\backslash
-int{
-\backslash
-theta_i
-\backslash
-neq{}y}_i Dir(
-\backslash
-theta;
-\backslash
-alpha)
-\end_layout
-
-\begin_layout Standard
-The marginalisation of a Dirichlet distribution is a Beta distribution.
-\end_layout
-
-\begin_layout Standard
-= 
-\backslash
-int{
-\backslash
-theta_y}
-\backslash
-theta_y Beta(
-\backslash
-theta;
-\backslash
-alpha_y, 
-\backslash
-alpha_0 - 
-\backslash
-alpha_y)
-\end_layout
-
-\begin_layout Standard
-Where 
-\backslash
-alpha_0 is 
-\backslash
-sum_i 
-\backslash
-alpha_i.
- This expression is now equivalent to the mean or expectation of our Beta
- distribution, which is:
-\end_layout
-
-\begin_layout Standard
-= 
-\backslash
-frac{
-\backslash
-alpha_y}{
-\backslash
-alpha_0}
-\end_layout
-
-\begin_layout Standard
-Similar calculations occur for the parameters of P(Xk|Y=y) for each value
- of Y.
- We now see that, with a uniform Dirichlet prior with 
-\backslash
-alpha_k = 1, the computations and results of the Bayesian formulation are
- precisely the same as those of the Maximum Likelihood formulation with
- +1 Additive Smoothing.
-\end_layout
-
-\begin_layout Standard
-We therefore use the results from the previous section giving us the following
- perplexity value:
+We compute the following perplexity value:
 \end_layout
 
 \begin_layout Standard
@@ -1105,14 +1163,30 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,comm
 
 \end_layout
 
+\begin_layout Standard
+This seems like a pretty good value, since the best possible perplexity
+ score would be 1.
+\end_layout
+
 \begin_layout Subsubsection*
 ii)
 \end_layout
 
 \begin_layout Standard
-We visualise P(y|x^(i)) and y^(i) for each fold for (arbitrarily) the 9465^th
+We visualise 
+\begin_inset Formula $P(y|x^{(i)})$
+\end_inset
+
+ and 
+\begin_inset Formula $y^{(i)}$
+\end_inset
+
+ for each fold for (arbitrarily) the 
+\begin_inset Formula $9465^{th}$
+\end_inset
+
  patch in each fold.
- This is shown in Figure~
+ This is shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:q3bii"
@@ -1373,8 +1447,21 @@ The strong assumption made by Naive Bayes is that the input features are
 \end_layout
 
 \begin_layout Standard
-TODO From this I can derive that for each pixel, its conditional distribution
- given any other pixel is the same, but I'm not sure where that leads me.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q3.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q3.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -1385,24 +1472,6 @@ Q4
 I interpret this question as asking us to now treat the intput and output
  as numerical rather than categorical data and perform linear regression
  on that.
-\end_layout
-
-\begin_layout Standard
-\begin_inset VSpace defskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand lstinputlisting
-filename "q4.m"
-lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q4.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection*
@@ -1489,6 +1558,43 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,comm
 
 \end_layout
 
+\begin_layout Standard
+It might seem wrong to compare this to the perplexity in the last section,
+ since here 
+\begin_inset Formula $p(y|x)$
+\end_inset
+
+ is a probability density rather than a discrete probability.
+ Perhaps it would have been better to approximate 
+\begin_inset Formula $P(y|x)$
+\end_inset
+
+ as 
+\begin_inset Formula $1/2*(p(y-0.5|x)+p(y+0.5|x))$
+\end_inset
+
+, thus approximating the integral of 
+\begin_inset Formula $p(y|x)$
+\end_inset
+
+ in the interval 
+\begin_inset Formula $(y-0.5,\; y+0.5)$
+\end_inset
+
+.
+ But numerically this would give very similar results to just our evaluation
+ at the midpoint, so we do allow ourselves to compare the results using
+ a 
+\begin_inset Formula $p(y|x)$
+\end_inset
+
+ as a density function to those using 
+\begin_inset Formula $P(y|x)$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection*
 b)
 \end_layout
@@ -1513,12 +1619,6 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,comm
 
 \end_layout
 
-\begin_layout Standard
-TODO this value is obviously wrong.
- Actually doing the classification and getting % correct would tell us whether
- the problem is badly normalised probabilities or something else.
-\end_layout
-
 \begin_layout Subsection*
 c)
 \end_layout
@@ -1528,7 +1628,7 @@ The perplexity score for the PCA method is notably worse.
  Although the PCA construction gives us a good way of discarding data while
  still reconstructing a reasonable approximation of the original patches
  to human eyes, when it comes to predicting specifically the value of the
- target pixel, using its neighbours 
+ target pixel, using its neighbours seems better.
 \end_layout
 
 \begin_layout Section*
@@ -1536,7 +1636,7 @@ Q5
 \end_layout
 
 \begin_layout Standard
-The results of Q2d) suggest we could get a very good result by just predicting
+The results of Q2d) suggest we could get a decent result by just predicting
  y=x(end).
  We find the standard deviation of the error to give us a narrow gaussian
  around x(end) for a distribution p(y|x).
@@ -1576,7 +1676,26 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,comm
 \end_layout
 
 \begin_layout Standard
-The resulting perplexity is comparable to our predictors from Q4.
+The resulting perplexity is comparable to our predictors from Q4 but not
+ as good as the naive bayes result from Q3.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "q4.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={q4.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
