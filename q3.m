@@ -12,7 +12,7 @@ LikelihoodsNB = reshape(cell2mat(ResultsNB), NInstances, 1);
 PerplexityNB = perplexity(LikelihoodsNB);
 fprintf('Done.\n'); toc;
 
-[Log, Cleanup] = makeLogFile(['q3bii.log']);
+[Log, Cleanup] = makeLogFile(['q3bi.log']);
 fprintf(Log, '[Q3bi] Naive Bayes Perplexity: %f.\n', PerplexityNB);
 
 % ii)
